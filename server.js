@@ -4,12 +4,19 @@
 const express = require('express');
 const app = new express();
 const path = require('path');
+const bodyParser = require('body-parser');
 
-app.get('/api/forms/1', (req, res) => {
-    res.json(['text', 'date']);
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
+// app.post('/api/forms/1', (req, res) => {
+//     console.log(req.body);
+//      res.send(req.body);
+//     //res.sendFile(path.join(__dirname, '/public/app.json'));
+// });
+// //
 app.get('/todoList', function(req, res) {
+     // res.send(req.body);
     res.sendFile(path.join(__dirname, '/public/app.html'));
 });
 
