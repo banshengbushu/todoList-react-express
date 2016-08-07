@@ -42,10 +42,25 @@
         },
 
         changeHandel: function(event){
+            let value=$("#input_main").val();
+            console.log(value+"vavava");
             this.setState({
                 value: event.target.value,
             });
 
+        },
+
+        componentDidMount: function() {
+            let value=$("#input_main").val();
+            console.log(value+"vavava");
+            $.get('/todoList', {value},(result) => {
+                console.log(result + 'rrrrr');
+                if (this.isMounted()) {
+                    this.setState({
+                        value:result.value,
+                    });
+                }
+        })
         },
 
         addTaskHandel: function(event){
@@ -54,7 +69,7 @@
             }
             let task = this.refs.addTask;
             if(task.value === ''){
-                console.error("don't add empty task!");
+                alert("please don't add empty task!");
                 return false;
             }
             this.setState(function(){
@@ -143,7 +158,7 @@
                 <section className="main">
                     <Header title={todolist.name}/>
                     <div className="add-taskItem-box">
-                        <input ref="addTask" className="input-lg form-control"
+                        <input id="input_main" ref="addTask" className="input-lg form-control"
                                placeholder="What needs to be done?"
                                autoFocus="true"
                                defaultValue={this.state.addTaskTitle}
@@ -198,7 +213,7 @@
         }
     });
 
-    var TodoItem = React.createClass({               // TodoItem类
+    var TodoItem = React.createClass({
 
         render: function() {
             var todo = this.props.data;
@@ -209,7 +224,7 @@
                     <input className="toggle" type="checkbox"
                            onClick={this.props.comTask}
                            checked={todo.completed}/>
-                    <label classname="col-md-1 control-label"> {todo.title} </label>
+                    <label className="col-md-1 control-label"> {todo.title} </label>
                     <button ref="deleteTask" className="btn btn-danger" onClick={this.props.delTask}>delete</button>
                 </div>
             </li>
